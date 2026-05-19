@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Mail, Lock, MessageCircle, User } from "lucide-react";
 import { createClient, apiCall } from "../../../utils/supabase/client";
+import InstallPrompt from '../components/InstallPrompt';
 import React from "react";
 
 export default function Login() {
