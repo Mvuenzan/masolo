@@ -24,10 +24,10 @@ export default defineConfig({
     react(),
     tailwindcss(),
     
-    // Ajout de la configuration pour rendre l'application installable (PWA)
+    // Configuration de la PWA optimisée et sécurisée pour Vercel
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'maskable-icon.png'],
+      includeAssets: [], // Laissé vide pour éviter que le plugin bloque sur des fichiers absents
       manifest: {
         name: 'Masolo Chat',
         short_name: 'Masolo',
@@ -38,12 +38,12 @@ export default defineConfig({
         orientation: 'portrait',
         icons: [
           {
-            src: 'pwa-192x192.png',
+            src: '/pwa-192x192.png', // Le slash devant garantit la bonne détection par Vercel
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'pwa-512x512.png',
+            src: '/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png'
           }
