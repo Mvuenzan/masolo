@@ -12,21 +12,19 @@ interface BeforeInstallPromptEvent extends Event {
 
 export default function InstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  
+  // MODIFICATION 1 : On force l'affichage à true pour que la bannière soit là INSTANTANÉMENT
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: Event) => {
-      // Empêche Chrome d'afficher sa pop-up automatique classique
       e.preventDefault();
-      // On stocke l'événement pour le déclencher au clic
       setDeferredPrompt(e as BeforeInstallPromptEvent);
-      // On affiche notre bouton personnalisé
       setIsVisible(true);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
-    // Si l'application est déjà installée, on cache le bouton
     window.addEventListener('appinstalled', () => {
       setIsVisible(false);
       setDeferredPrompt(null);
@@ -38,12 +36,13 @@ export default function InstallPrompt() {
   }, []);
 
   const handleInstallClick = async () => {
-    if (!deferredPrompt) return;
+    // MODIFICATION 2 : Si l'événement Chrome n'est pas encore prêt, on aide l'utilisateur
+    if (!deferredPrompt) {
+      alert("Cliquez sur les 3 petits points de votre navigateur en haut à droite, puis sur 'Installer l'application' ou 'Ajouter à l'écran d'accueil'.");
+      return;
+    }
     
-    // Ouvre la fenêtre d'installation du téléphone
     deferredPrompt.prompt();
-    
-    // Attend le choix de l'utilisateur
     const { outcome } = await deferredPrompt.userChoice;
     
     if (outcome === 'accepted') {
@@ -54,6 +53,10 @@ export default function InstallPrompt() {
     setIsVisible(false);
   };
 
+  // MODIFICATION 3 : On commente cette sécurité pour empêcher le composant de se cacher
+  // if (!isVisible) return null;
+
+  // Si l'état passe à false (clic sur Plus tard), on ne l'affiche plus
   if (!isVisible) return null;
 
   return (
