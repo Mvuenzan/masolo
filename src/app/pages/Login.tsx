@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Mail, Lock, MessageCircle, User } from "lucide-react";
 import { createClient, apiCall } from "../../../utils/supabase/client";
-import InstallPrompt from '../components/InstallPrompt';
 import React from "react";
 
 export default function Login() {
@@ -28,7 +27,7 @@ export default function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true); // ✅ Corrigé (au lieu de loading(true))
+    setLoading(true);
     setError("");
 
     // SÉCURITÉ : Forcer au moins 8 caractères uniquement à l'inscription
@@ -198,9 +197,6 @@ export default function Login() {
           </div>
         </div>
       </div>
-
-      {/* Message d'installation instantané */}
-      <InstallPrompt />
     </div>
   );
 }
