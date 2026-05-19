@@ -28,7 +28,7 @@ export default function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    loading(true);
     setError("");
 
     // SÉCURITÉ : Forcer au moins 8 caractères uniquement à l'inscription
@@ -198,6 +198,9 @@ export default function Login() {
           </div>
         </div>
       </div>
+
+      {/* Bannière personnalisée d'installation d'application */}
+      <InstallPrompt />
     </div>
   );
 }
